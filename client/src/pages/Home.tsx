@@ -45,29 +45,27 @@ export default function Home() {
   const chaosOpacity = useTransform(scrollYProgress, [0.15, 0.25], [1, 0]);
   const reliefOpacity = useTransform(scrollYProgress, [0.15, 0.25], [0, 1]);
 
-  const submitMutation = trpc.form.submit.useMutation({
-    onSuccess: () => {
-      console.log("Form submitted successfully!");
-      
-      // Track form submission in Google Analytics
-      if (typeof window !== 'undefined' && window.gtag) {
-        window.gtag('event', 'form_submit', {
-          event_category: 'engagement',
-          event_label: 'pest_control_lead',
-          value: 1
-        });
+  const submitForm = async (data: { name: string; phone: string; city: string }) => {
+    try {
+      const response = await fetch('/.netlify/functions/submit-form', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
       }
-      
-      toast.success("הטופס נשלח בהצלחה!");
-      setLocation("/thank-you");
-    },
-    onError: (error) => {
-      console.error("Form submission error:", error);
-      toast.error("שגיאה בשליחת הטופס. אנא נסה שוב.");
-      console.error("Form submission error:", error);
-      setIsSubmitting(false);
-    },
-  });
+
+      const result = await response.json();
+      return result;
+    } catch (error) {
+      console.error('Form submission error:', error);
+      throw error;
+    }
+  };
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -82,16 +80,36 @@ export default function Home() {
     
     setIsSubmitting(true);
 
-    const submissionData = {
-      name: formData.name,
-      email: undefined,
-      phone: formData.phone,
-      city: formData.area,
-    };
-    
-    console.log("Submitting form with data:", submissionData);
-    
-    submitMutation.mutate(submissionData);
+    try {
+      const submissionData = {
+        name: formData.name,
+        phone: formData.phone,
+        city: formData.area,
+      };
+      
+      console.log("Submitting form with data:", submissionData);
+      
+      await submitForm(submissionData);
+      
+      console.log("Form submitted successfully!");
+      
+      // Track form submission in Google Analytics
+      if (typeof window !== 'undefined' && window.gtag) {
+        window.gtag('event', 'form_submit', {
+          event_category: 'engagement',
+          event_label: 'pest_control_lead',
+          value: 1
+        });
+      }
+      
+      toast.success("הטופס נשלח בהצלחה!");
+      setLocation("/thank-you");
+      
+    } catch (error) {
+      console.error("Form submission error:", error);
+      toast.error("שגיאה בשליחת הטופס. אנא נסה שוב.");
+      setIsSubmitting(false);
+    }
   };
 
   const validatePhone = (phone: string) => {
