@@ -167,7 +167,7 @@ export default function Home() {
         value: 1
       });
     }
-    window.open("https://wa.me/972501234567", "_blank");
+    window.open("https://wa.me/972545936560", "_blank");
   };
 
   return (
