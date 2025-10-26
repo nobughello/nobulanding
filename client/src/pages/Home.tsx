@@ -187,7 +187,7 @@ export default function Home() {
       </motion.button>
 
       {/* 1️⃣ HERO SECTION */}
-      <section className="relative min-h-[80vh] md:min-h-[85vh] lg:min-h-[90vh] bg-gradient-to-br from-green-50 via-teal-50 to-emerald-50 overflow-hidden">
+      <section className="relative min-h-[80vh] md:min-h-[60vh] lg:min-h-[65vh] bg-gradient-to-br from-green-50 via-teal-50 to-emerald-50 overflow-hidden">
         {/* Floating Animated Insects */}
         <div className="absolute top-20 left-10">
           <motion.div
@@ -385,7 +385,7 @@ export default function Home() {
       </section>
 
       {/* 2️⃣ PROBLEM STORY */}
-      <section className="py-16 md:py-24 bg-green-50">
+      <section className="py-16 md:py-12 lg:py-16 bg-green-50">
         <div className="container max-w-3xl mx-auto px-5">
           <div className="space-y-8 text-center">
             <motion.p
