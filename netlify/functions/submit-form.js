@@ -27,7 +27,7 @@ exports.handler = async (event, context) => {
   }
 
   try {
-    const { name, phone, city } = JSON.parse(event.body);
+    const { name, phone, city, date } = JSON.parse(event.body);
 
     // Validate required fields
     if (!name || !phone || !city) {
@@ -78,6 +78,10 @@ exports.handler = async (event, context) => {
               <tr>
                 <td style="padding: 10px 0; border-bottom: 1px solid #e5e7eb; font-weight: bold; color: #374151;">City:</td>
                 <td style="padding: 10px 0; border-bottom: 1px solid #e5e7eb; color: #111827;">${city}</td>
+              </tr>
+              <tr>
+                <td style="padding: 10px 0; border-bottom: 1px solid #e5e7eb; font-weight: bold; color: #374151;">Preferred Date:</td>
+                <td style="padding: 10px 0; border-bottom: 1px solid #e5e7eb; color: #111827;">${date || 'Not specified'}</td>
               </tr>
               <tr>
                 <td style="padding: 10px 0; font-weight: bold; color: #374151;">Submitted:</td>

@@ -85,6 +85,7 @@ export default function Home() {
         name: formData.name,
         phone: formData.phone,
         city: formData.area,
+        date: formData.date,
       };
       
       console.log("Submitting form with data:", submissionData);
